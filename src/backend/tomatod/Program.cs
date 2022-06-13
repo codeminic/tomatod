@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Identity.Web;
 using tomatod;
 
@@ -13,6 +12,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddTransient<Greenhouse>();
 
 var app = builder.Build();
 
@@ -27,26 +27,19 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<DeviceHub>("/deviceHub");
-
 app.MapGet("/status", (HttpContext httpContext) =>
 {
 })
 .WithName("Get status");
 
-app.MapPost("/greenhouse/water", async ([FromServices] IHubContext<DeviceHub> deviceHub) => {
-    await deviceHub.Clients.All.SendAsync("water-plants");
-})
+app.MapPost("/greenhouse/water", async ([FromServices] Greenhouse greenhouse) => await greenhouse.WaterPlants())
 .WithName("Water plants");
 
-app.MapPost("/greenhouse/shutter/open", async ([FromServices] IHubContext<DeviceHub> deviceHub) => {
-    await deviceHub.Clients.All.SendAsync("open-shutter");
-})
+app.MapPost("/greenhouse/shutter/open", async ([FromServices] Greenhouse greenhouse) => await greenhouse.OpenShutter())
 .WithName("Open shutter");
 
-app.MapPost("/greenhouse/shutter/close", async ([FromServices] IHubContext<DeviceHub> deviceHub) => {
-    await deviceHub.Clients.All.SendAsync("close-shutter");
-})
+app.MapPost("/greenhouse/shutter/close", async ([FromServices] Greenhouse greenhouse) => await greenhouse.CloseShutter())
 .WithName("Close shutter");
 
 app.Run();
+
