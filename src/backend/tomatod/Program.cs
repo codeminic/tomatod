@@ -12,6 +12,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<MqttListener>();
+
 builder.Services.AddTransient<Greenhouse>();
 
 var app = builder.Build();

@@ -1,0 +1,7 @@
+#define WLAN_SSID ""
+#define WLAN_PWD ""
+#define MQTT_BROKER ""
+#define MQTT_PORT ""
+#define MQTT_USER ""
+#define MQTT_PWD ""
+#define MQTT_CLIENTNAME ""

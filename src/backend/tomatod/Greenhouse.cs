@@ -16,8 +16,7 @@ public class Greenhouse
         using var client = await GetMqttClient();
 
         var message = new MqttApplicationMessageBuilder()
-            .WithTopic("greenhouse/shutter")
-            .WithPayload("open")
+            .WithTopic("greenhouse/shutter/open")
             .Build();
 
         await client.PublishAsync(message, CancellationToken.None);
@@ -28,8 +27,7 @@ public class Greenhouse
         using var client = await GetMqttClient();
 
         var message = new MqttApplicationMessageBuilder()
-            .WithTopic("greenhouse/shutter")
-            .WithPayload("close")
+            .WithTopic("greenhouse/shutter/close")
             .Build();
 
         await client.PublishAsync(message, CancellationToken.None);
