@@ -1,9 +1,9 @@
 ﻿<template>
   <h1>Tomatehüsli</h1>
   <div class="action-group">
-    <button @click="openShutter">🔓 Open shutter</button>
-    <button @click="closeShutter">🔒 Close shutter</button>
-    <button @click="waterPlants">🚿 Water plants</button>
+    <button @click="openShutter">🔓 Ufmache</button>
+    <button @click="closeShutter">🔒 Zuemache</button>
+    <button @click="waterPlants">🚿 Wasser geh</button>
   </div>
 </template>
 
