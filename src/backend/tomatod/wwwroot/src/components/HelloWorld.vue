@@ -1,18 +1,15 @@
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <button @click="openShutter">Open shutter</button>
-    <button @click="closeShutter">Close shutter</button>
-    <button @click="waterPlants">Water plants</button>
+﻿<template>
+  <h1>Tomatehüsli</h1>
+  <div class="action-group">
+    <button @click="openShutter">🔓 Open shutter</button>
+    <button @click="closeShutter">🔒 Close shutter</button>
+    <button @click="waterPlants">🚿 Water plants</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String,
-  },
   methods: {
     openShutter: async function () {
       await fetch("/api/greenhouse/shutter/open", { method: "POST" });
@@ -29,18 +26,29 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.action-group {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+button {
+  font-size: 1.2em;
+  width: 80%;
+  height: 40px;
+  max-width: 200px;
+  border: 0px solid lightgray;
+  border-radius: 5px;
+  margin: 5px;
+  background-color: #d7e3ee;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+button:hover {
+  background-color: #c4cfda;
 }
-a {
-  color: #42b983;
+
+button:active {
+  background-color: #adb8c2;
 }
 </style>
