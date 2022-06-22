@@ -20,4 +20,20 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\.gitignore" />
+    <None Include="wwwroot\babel.config.js" />
+    <None Include="wwwroot\public\favicon.ico" />
+    <None Include="wwwroot\public\index.html" />
+    <None Include="wwwroot\README.md" />
+    <None Include="wwwroot\src\App.vue" />
+    <None Include="wwwroot\src\assets\logo.png" />
+    <None Include="wwwroot\src\components\HelloWorld.vue" />
+    <None Include="wwwroot\src\main.js" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="cd wwwroot&#xD;&#xA;npm run build" />
+  </Target>
+
 </Project>
