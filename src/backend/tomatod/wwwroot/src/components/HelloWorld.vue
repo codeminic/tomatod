@@ -7,7 +7,7 @@
     </div>
     <div class="telemetry-data-item">
       <div class="telemetry-data-value">40</div>
-      <div class="telemetry-data-unit">% rH</div>
+      <div class="telemetry-data-unit">%</div>
     </div>
   </div>
   <div class="action-group">
