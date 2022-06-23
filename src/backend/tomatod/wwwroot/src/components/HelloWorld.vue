@@ -1,5 +1,15 @@
 ﻿<template>
   <h1>Tomatehüsli</h1>
+  <div class="telemetry-data-group">
+    <div class="telemetry-data-item">
+      <div class="telemetry-data-value">25.5</div>
+      <div class="telemetry-data-unit">°C</div>
+    </div>
+    <div class="telemetry-data-item">
+      <div class="telemetry-data-value">40</div>
+      <div class="telemetry-data-unit">% rH</div>
+    </div>
+  </div>
   <div class="action-group">
     <button @click="openShutter">🔓 Ufmache</button>
     <button @click="closeShutter">🔒 Zuemache</button>
@@ -26,6 +36,34 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.telemetry-data-group {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.telemetry-data-item {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  align-items: center;
+}
+
+.telemetry-data-value {
+  font-size: 1.5em;
+  width: 120px;
+  text-align: end;
+}
+
+.telemetry-data-unit {
+  font-size: 0.8em;
+  width: 100px;
+  margin-left: 5px;
+  text-align: start;
+}
+
 .action-group {
   display: flex;
   flex-direction: column;

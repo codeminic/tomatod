@@ -25,6 +25,6 @@ body {
 }
 
 .tomato-title {
-  font-size: 10rem;
+  font-size: 5rem;
 }
 </style>
