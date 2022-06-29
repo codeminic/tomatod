@@ -6,27 +6,19 @@
 #include "secrets.h"
 
 #define MOTOR_STEPS 200
-#define MOTOR_RPM 20
+#define MOTOR_RPM 150
+#define ENABLE D6
 #define DIR D7
 #define STEP D8
 
-EspMQTTClient client(
-    WLAN_SSID,
-    WLAN_PWD,
-    MQTT_BROKER,
-    MQTT_USER,
-    MQTT_PWD,
-    MQTT_CLIENTNAME,
-    MQTT_PORT);
+EspMQTTClient client(WLAN_SSID, WLAN_PWD, MQTT_BROKER, MQTT_USER, MQTT_PWD, MQTT_CLIENTNAME, MQTT_PORT);
 
-DRV8825 stepper(MOTOR_STEPS, DIR, STEP);
+DRV8825 stepper(MOTOR_STEPS, DIR, STEP, ENABLE);
 
 void onConnectionEstablished()
 {
     client.subscribe("greenhouse/water", waterPlants);
-
     client.subscribe("greenhouse/shutter/close", closeShutter);
-
     client.subscribe("greenhouse/shutter/open", openShutter);
 }
 
@@ -34,7 +26,11 @@ void openShutter(String payload)
 {
     Serial.println("Open shutter");
     stepper.enable();
-    stepper.rotate(720);
+    delay(500);
+    int rotations = 200;
+    long steps = rotations * 360;
+    stepper.rotate(steps);
+    delay(500);
     stepper.disable();
 }
 
@@ -42,7 +38,11 @@ void closeShutter(String payload)
 {
     Serial.println("Close shutter");
     stepper.enable();
-    stepper.rotate(-720);
+    delay(500);
+    int rotations = 200;
+    long steps = rotations * -360;
+    stepper.rotate(steps);
+    delay(500);
     stepper.disable();
 }
 
@@ -62,6 +62,7 @@ void setup()
 
     stepper.begin(MOTOR_RPM, 32);
     stepper.disable();
+    stepper.setSpeedProfile(BasicStepperDriver::LINEAR_SPEED, 50, 50);
 
     client.enableDebuggingMessages(); // Enable debugging messages sent to serial output
 }
