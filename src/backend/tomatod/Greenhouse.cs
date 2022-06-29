@@ -1,14 +1,18 @@
-﻿using MQTTnet;
+﻿using Microsoft.AspNetCore.SignalR;
+using MQTTnet;
 using MQTTnet.Client;
+using tomatod.API;
 
 namespace tomatod;
 public class Greenhouse
 {
     private readonly IConfiguration _configuration;
+    private readonly IHubContext<TelemetryHub, ITelemetryHub> _telemetryHubContext;
 
-    public Greenhouse(IConfiguration configuration)
+    public Greenhouse(IConfiguration configuration, IHubContext<TelemetryHub, ITelemetryHub> telemetryHubContext)
     {
         _configuration = configuration;
+        _telemetryHubContext = telemetryHubContext;
     }
 
     public async Task OpenShutter()
@@ -18,6 +22,8 @@ public class Greenhouse
         var message = new MqttApplicationMessageBuilder()
             .WithTopic("greenhouse/shutter/open")
             .Build();
+
+        await _telemetryHubContext.Clients.All.SendLogMessage("Fuck of mate! 🤌");
 
         await client.PublishAsync(message, CancellationToken.None);
     }

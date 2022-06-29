@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using tomatod;
+using tomatod.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,8 @@ app.UseAuthorization();
 
 app.MapFallbackToFile("dist/index.html");
 
+app.MapHub<TelemetryHub>("/telemetry-hub");
+
 app.MapGet("/status", (HttpContext httpContext) =>
 {
 })
@@ -46,4 +49,3 @@ app.MapPost("/api/greenhouse/shutter/close", async ([FromServices] Greenhouse gr
 
 app.Run();
 
-app.MapFallbackToFile("index.html");
