@@ -9,4 +9,5 @@ public interface ITelemetryHub
 
 public class TelemetryHub : Hub<ITelemetryHub>
 {
+    public async Task SendLogMessage(string message) => await Clients.All.SendLogMessage(message);
 }

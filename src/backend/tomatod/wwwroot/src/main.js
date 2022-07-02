@@ -1,4 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { VueSignalR } from "@dreamonkey/vue-signalr";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-createApp(App).mount('#app')
+const connection = new HubConnectionBuilder()
+  .withUrl("https://localhost:5001/telemetry-hub")
+  .build();
+
+createApp(App).use(VueSignalR, { connection }).mount("#app");

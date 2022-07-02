@@ -23,7 +23,7 @@ public class Greenhouse
             .WithTopic("greenhouse/shutter/open")
             .Build();
 
-        await _telemetryHubContext.Clients.All.SendLogMessage("Fuck of mate! 🤌");
+        await _telemetryHubContext.Clients.All.SendLogMessage("Fuck of mate!");
 
         await client.PublishAsync(message, CancellationToken.None);
     }

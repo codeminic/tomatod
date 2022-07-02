@@ -18,7 +18,16 @@
 </template>
 
 <script>
+import { useSignalR } from "@dreamonkey/vue-signalr";
+
 export default {
+  setup() {
+    const signalr = useSignalR();
+
+    signalr.on("SendLogMessage", (message) => {
+      console.log(message);
+    });
+  },
   name: "HelloWorld",
   methods: {
     openShutter: async function () {

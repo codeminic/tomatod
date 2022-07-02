@@ -14,8 +14,13 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder
+    .AllowCredentials()
+    .WithOrigins("http://localhost:8080")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+));
 builder.Services.AddHostedService<MqttListener>();
-
 builder.Services.AddTransient<Greenhouse>();
 
 var app = builder.Build();
@@ -24,6 +29,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors();
+
 app.UseStaticFiles(new StaticFileOptions { FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/dist"))});
 
 app.UseAuthentication();
