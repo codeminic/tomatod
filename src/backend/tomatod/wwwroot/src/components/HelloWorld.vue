@@ -2,8 +2,11 @@
   <h1>Tomatehüsli</h1>
   <div class="telemetry-data-group">
     <div class="telemetry-data-item">
-      <div class="telemetry-data-value" style="text-align: center">
-        {{ shutter }}
+      <div
+        class="telemetry-data-value"
+        style="text-align: center; width: 200px; font-size: 1.2em"
+      >
+        {{ translateShutterState(shutter) }}
       </div>
     </div>
     <div class="telemetry-data-item">
@@ -46,6 +49,20 @@ export default {
   },
   name: "HelloWorld",
   methods: {
+    translateShutterState: function () {
+      switch (this.shutter) {
+        case "Open":
+          return "Offe";
+        case "Closed":
+          return "Zue";
+        case "Opening":
+          return "Bin am ufmache..";
+        case "Closing":
+          return "Bin am zuemache..";
+        default:
+          return "Weiss gad nöd.. 😐";
+      }
+    },
     openShutter: async function () {
       await fetch("/api/greenhouse/shutter/open", { method: "POST" });
     },
