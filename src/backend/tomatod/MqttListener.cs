@@ -1,17 +1,17 @@
 ﻿using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Extensions.ManagedClient;
-using System.Diagnostics;
 
 namespace tomatod
 {
     public class MqttListener : BackgroundService
     {
+        private readonly GreenhouseStateManager _greenhouseStateManager;
         private readonly IConfiguration _configuration;
         private readonly ILogger<MqttListener> _logger;
 
-        public MqttListener(IConfiguration configuration, ILogger<MqttListener> logger)
+        public MqttListener(GreenhouseStateManager greenhouseStateManager, IConfiguration configuration, ILogger<MqttListener> logger)
         {
+            _greenhouseStateManager = greenhouseStateManager;
             _configuration = configuration;
             _logger = logger;
         }
@@ -42,8 +42,27 @@ namespace tomatod
 
         private Task MqttClient_ApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs arg)
         {
-            _logger.LogInformation($"Received message on topic {arg.ApplicationMessage.Topic}");
-            _logger.LogInformation($"Payload: {arg.ApplicationMessage.ConvertPayloadToString()}");
+            var topic = arg.ApplicationMessage.Topic;
+            var payload = arg.ApplicationMessage.ConvertPayloadToString();
+
+            _logger.LogInformation($"Received message on topic {topic}");
+            _logger.LogInformation($"Payload: {payload}");
+
+            if (topic == "greenhouse/telemetry/temperature")
+            {
+                var temperature = float.Parse(payload);
+                _greenhouseStateManager.Temperature = temperature;
+            }
+            else if(topic == "greenhouse/telemetry/humidity")
+            {
+                var humidity = float.Parse(payload);
+                _greenhouseStateManager.Humidity = humidity;
+            }
+            else if (topic == "greenhouse/telemetry/shutter")
+            {
+                var state = (ShutterState)Enum.Parse(typeof(ShutterState), payload, true);
+                _greenhouseStateManager.ShutterState = state;
+            }
 
             return Task.CompletedTask;
         }

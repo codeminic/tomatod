@@ -4,10 +4,10 @@ namespace tomatod.API;
 
 public interface ITelemetryHub
 {
-    Task SendLogMessage(string message);
+    Task SendState(string jsonState);
 }
 
 public class TelemetryHub : Hub<ITelemetryHub>
 {
-    public async Task SendLogMessage(string message) => await Clients.All.SendLogMessage(message);
+    public async Task SendHumidity(string jsonState) => await Clients.All.SendState(jsonState);
 }

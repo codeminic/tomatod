@@ -16,12 +16,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder
     .AllowCredentials()
-    .WithOrigins("http://localhost:8080")
+    .WithOrigins("http://localhost:8080", "https://localhost:5001")
     .AllowAnyMethod()
     .AllowAnyHeader()
 ));
 builder.Services.AddHostedService<MqttListener>();
 builder.Services.AddTransient<Greenhouse>();
+builder.Services.AddSingleton<GreenhouseStateManager>();
 
 var app = builder.Build();
 

@@ -2,11 +2,16 @@
   <h1>Tomatehüsli</h1>
   <div class="telemetry-data-group">
     <div class="telemetry-data-item">
-      <div class="telemetry-data-value">25.5</div>
+      <div class="telemetry-data-value" style="text-align: center">
+        {{ shutter }}
+      </div>
+    </div>
+    <div class="telemetry-data-item">
+      <div class="telemetry-data-value">{{ temperature || "--" }}</div>
       <div class="telemetry-data-unit">°C</div>
     </div>
     <div class="telemetry-data-item">
-      <div class="telemetry-data-value">40</div>
+      <div class="telemetry-data-value">{{ humidity || "--" }}</div>
       <div class="telemetry-data-unit">%</div>
     </div>
   </div>
@@ -21,11 +26,22 @@
 import { useSignalR } from "@dreamonkey/vue-signalr";
 
 export default {
-  setup() {
+  data() {
+    return {
+      temperature: null,
+      humidity: null,
+      shutter: null,
+    };
+  },
+  mounted() {
     const signalr = useSignalR();
 
-    signalr.on("SendLogMessage", (message) => {
-      console.log(message);
+    signalr.on("SendState", (jsonMessage) => {
+      console.log(jsonMessage);
+      let message = JSON.parse(jsonMessage);
+      this.temperature = message.temperature;
+      this.humidity = message.humidity;
+      this.shutter = message.shutterState;
     });
   },
   name: "HelloWorld",
@@ -43,7 +59,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .telemetry-data-group {
   display: flex;
